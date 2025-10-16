@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EIT TravelMAId - Multi-Agent Travel Planner
+
+A hackathon MVP for planning European trips using AI-powered multi-agent orchestration. Compare train, flight, bus, car, and ferry options based on speed, budget, and environmental impact.
+
+## Features
+
+- **Smart Trip Planning**: Natural language input or structured form
+- **Multi-Modal Comparison**: Train, flight, bus, car, and ferry options
+- **Preference-Based Scoring**: Optimize for speed, budget, or planet
+- **Real-Time Booking**: Book your preferred option instantly
+- **CO₂ Tracking**: See environmental impact of each option
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: TailwindCSS v4 + shadcn/ui
+- **State Management**: React Query
+- **Icons**: lucide-react
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
+- Node.js 18+ and npm
+
+### Installation
+
+\`\`\`bash
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local and add your NEXT_PUBLIC_API_URL
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `NEXT_PUBLIC_API_URL`: Backend API base URL (optional, uses mock data if not set)
 
-## Learn More
+## Backend API
 
-To learn more about Next.js, take a look at the following resources:
+The app expects the following REST endpoints:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `POST /chat` - Get travel options
+  - Body: `{ text: string, prefs: Preferences }`
+  - Returns: `{ query, candidates[], recommendation }`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `POST /book` - Book a travel option
+  - Body: `{ option: Candidate, user: string }`
+  - Returns: `{ booking_id, status }`
 
-## Deploy on Vercel
+- `GET /itinerary/{id}` - Get booking details
+  - Returns: `{ booking_id, status, option, user, booked_at }`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If the API is unavailable, the app uses mock data for demonstration.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+\`\`\`
+app/
+  page.tsx              # Landing page
+  plan/page.tsx         # Trip planning form
+  results/page.tsx      # Search results
+  itinerary/[id]/page.tsx  # Booking confirmation
+components/
+  ChatBox.tsx           # Natural language input
+  PreferenceControls.tsx  # Speed/Budget/Planet sliders
+  OptionCard.tsx        # Travel option display
+  ResultsTable.tsx      # Results table view
+lib/
+  api.ts                # API client
+  types.ts              # TypeScript definitions
+  scoring.ts            # Client-side scoring
+  utils/format.ts       # Formatting utilities
+\`\`\`
+
+## TODO
+
+- [ ] Add map visualization for route legs
+- [ ] Replace CO₂ heuristics with real per-leg data from backend
+- [ ] Add user authentication
+- [ ] Implement saved trips
+- [ ] Add more transport modes (rideshare, bike)
+
+## License
+
+MIT
