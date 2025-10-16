@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChatBox } from "@/components/ChatBox"
 import { PreferenceControls } from "@/components/PreferenceControls"
+import { LoadingOverlay } from "@/components/LoadingOverlay"
 import { useToast } from "@/hooks/use-toast"
 import { chatWithAgent } from "@/lib/api"
 import type { Preferences } from "@/lib/types"
@@ -199,6 +200,7 @@ export default function PlanPage() {
           </Card>
         </div>
       </div>
+      <LoadingOverlay isVisible={isLoading} message="Finding travel options..." />
     </div>
   )
 }

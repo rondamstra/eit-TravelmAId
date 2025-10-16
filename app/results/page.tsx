@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { OptionCard } from "@/components/OptionCard"
 import { ResultsTable } from "@/components/ResultsTable"
+import { LoadingOverlay } from "@/components/LoadingOverlay"
 import { useToast } from "@/hooks/use-toast"
 import { bookOption } from "@/lib/api"
 import { sortCandidates } from "@/lib/scoring"
@@ -194,6 +195,7 @@ export default function ResultsPage() {
           </Tabs>
         </div>
       </div>
+      <LoadingOverlay isVisible={isBooking} message="Processing your booking..." />
     </div>
   )
 }

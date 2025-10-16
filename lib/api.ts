@@ -4,6 +4,9 @@ import type { ChatRequest, ChatResponse, BookingRequest, BookingResponse, Itiner
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || ""
 
+// Add realistic delay to simulate API response time
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
 // Mock data for when API is not available
 const MOCK_CANDIDATES: Candidate[] = [
   {
@@ -94,6 +97,8 @@ export async function chatWithAgent(request: ChatRequest): Promise<ChatResponse>
     })
   } catch (error) {
     console.warn("[v0] Using mock data for chat:", error)
+    // Add realistic delay for search
+    await delay(2000 + Math.random() * 1000) // 2-3 seconds
     // Return mock data
     return {
       query: {
@@ -115,6 +120,8 @@ export async function bookOption(request: BookingRequest): Promise<BookingRespon
     })
   } catch (error) {
     console.warn("[v0] Using mock booking:", error)
+    // Add realistic delay for booking
+    await delay(1500 + Math.random() * 500) // 1.5-2 seconds
     // Return mock booking
     return {
       booking_id: `mock-booking-${Date.now()}`,
